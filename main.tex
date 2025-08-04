@@ -1,4 +1,6 @@
-\documentclass[plea]{legaldoc}
+\documentclass[insertoath]{legaldoc}
+
+\setdocumenttitle{Affidavit}
 
 \begin{document}
 
@@ -6,10 +8,9 @@
 \input{layout/content}
 \input{layout/signatory}
 
-\ifx\undefined\affidavit
-\else
-    \input{layout/oath}
-\fi
+\ifbool{insertOath}{
+  \input{layout/oath}
+}{}
 
 \input{layout/recipients}
 
