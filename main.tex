@@ -26,9 +26,10 @@ package.path = package.path .. ";./external/?.lua;./scripts/?.lua"
     \textbf{\documenttitle}
 \end{center}
 \vspace{0.25cm}\hrule\vspace{0.25cm}
+
 \begin{luacode*}
-local process_content = require("scripts/content")
-process_content("content.json")
+  local process_content = require("scripts/content")
+  process_content("content.json")
 \end{luacode*}
 
 \parbox{\textwidth}{
@@ -42,7 +43,7 @@ process_content("content.json")
 
 \newpage
 \begin{spacing}{1}
-\directlua{require("./scripts/recipients")("content/recipients.txt")}
+\directlua{require("./scripts/recipients")("content.json")}
 \end{spacing}
 
 \newpage

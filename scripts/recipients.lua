@@ -5,29 +5,52 @@ local function process_recipients(filepath)
 		return
 	end
 
-	local i = 1
-	local output = {}
+	local json = require("external/dkjson")
+	local json_content, pos, err = json.decode(file:read("*all"))
+	file:close()
 
-	for line in file:lines() do
-		line = line:gsub("^%s*(.-)%s*$", "%1")
-
-		if i == 1 then
-			table.insert(output, "\\textbf{TO:} \\\\")
-			table.insert(output, string.format("\\textbf{%s} \\\\", line))
-		elseif i == 2 then
-			table.insert(output, string.format("\\textbf{%s} \\\\", line))
-		elseif line ~= "" then
-			table.insert(output, string.format("%s \\\\", line))
-		else
-			table.insert(output, "\\vspace{1cm} \\\\")
-			table.insert(output, "\\textbf{AND }")
-			i = 0
-		end
-
-		i = i + 1
+	if err then
+		tex.error("Error decoding JSON: " .. err)
+		return
 	end
 
-	file:close()
+	local output = {}
+	local recipient_count = #json_content.recipients
+
+	for i, recipient in ipairs(json_content.recipients) do
+		table.insert(output, [[\noindent\begin{spacing}{1}]])
+
+		if (i > 1) and (i <= recipient_count) then
+			table.insert(output, [[\textbf{AND }]])
+		end
+
+		table.insert(
+			output,
+			string.format([[\textbf{TO:}\\\textbf{%s}\\\textbf{%s}\\]], recipient.name, recipient.role)
+		)
+
+		if recipient.address ~= nil then
+			table.insert(output, string.format([[Address: %s\\]], recipient.address))
+		end
+
+		if recipient.email ~= nil then
+			table.insert(output, string.format([[E-mail: %s\\]], recipient.email))
+		end
+
+		if recipient.cell ~= nil then
+			table.insert(output, string.format([[Cell: %s\\]], recipient.cell))
+		end
+
+		if recipient.fax ~= nil then
+			table.insert(output, string.format([[Fax: %s\\]], recipient.fax))
+		end
+
+		if recipient.phone ~= nil then
+			table.insert(output, string.format([[Tel: %s\\]], recipient.phone))
+		end
+
+		table.insert(output, [[\end{spacing}]])
+	end
 
 	tex.print(table.concat(output, "\n"))
 end
