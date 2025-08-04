@@ -1,0 +1,31 @@
+\documentclass[plea]{legaldoc}
+
+\begin{document}
+
+\input{layout/header}
+\input{layout/content}
+\input{layout/signatory}
+
+\ifx\undefined\affidavit
+\else
+    \input{layout/oath}
+\fi
+
+\input{layout/recipients}
+
+\newpage
+\begin{luacode}
+local annexures_path = "annexures/" -- Folder containing annexures
+local p = io.popen('ls "' .. annexures_path .. '"') -- Unix/macOS
+
+if p then
+  for file in p:lines() do
+    if string.match(file, "%.pdf$") then -- Only include PDFs
+      tex.print(string.format("\\InsertAnnexure{%s/%s}", annexures_path, file))
+    end
+  end
+  p:close()
+end
+\end{luacode}
+
+\end{document}

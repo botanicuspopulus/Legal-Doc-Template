@@ -1,0 +1,36 @@
+\geometry{a4paper, margin=1in}
+\setstretch{1.5}
+\setlength{\parindent}{0cm}
+
+\titleformat{\section}{\normalfont\Large\bfseries\centering}{\thesection}{1em}{}
+\titleformat{\subsection}{\normalfont\large\bfseries}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}{\normalfont\normalsize\bfseries}{\thesubsubsection}{1em}{}
+
+\renewcommand{\familydefault}{\sfdefault}
+
+\setlist[enumerate]{
+    resume,
+    align=left,
+    topsep=0.25cm,
+    itemsep=0.25cm,
+    leftmargin=1cm,
+    rightmargin=0cm,
+    itemindent=0cm,
+    labelsep=0cm,
+    labelwidth=1cm,
+    labelindent=0cm,
+}
+
+\setcounter{secnumdepth}{0}
+
+\renewcommand{\headrulewidth}{0pt}
+
+\pagestyle{fancy}
+\fancyhf{} % Clear all headers and footers
+\fancyfoot[C]{Page \thepage\ of \pageref{LastPage}} % Centered footer with "Page X of Y"
+
+\fancypagestyle{pdfpages}{
+  \fancyhf{}
+  \fancyhead[R]{\Large\textbf{\pdfpagesheaderright}}
+  \fancyfoot[C]{Page \thepage\ of \pageref{LastPage}}
+}

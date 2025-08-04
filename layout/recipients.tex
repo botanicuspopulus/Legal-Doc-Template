@@ -1,0 +1,8 @@
+\newpage
+\begin{luacode*}
+  dofile("scripts/recipients.lua")
+\end{luacode*}
+
+\begin{spacing}{1}
+    \directlua{process_recipients("content/recipients.txt")}
+\end{spacing}

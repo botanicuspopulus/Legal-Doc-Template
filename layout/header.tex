@@ -1,0 +1,21 @@
+\begin{luacode*}
+  dofile("scripts/header.lua")
+\end{luacode*}
+
+\newcommand{\horline}{\vspace{0.25cm}\hrule\vspace{0.25cm}}
+
+\horline
+\begin{center}\directlua{tex.print(case_info.court.heading)}\end{center}
+\horline
+
+\begin{tabular*}{\textwidth}{@{}l@{\extracolsep{\fill}}r@{}}
+    & \directlua{print_case_no()} \\
+    In the matter between: & \\
+    \directlua{print_parties()}
+\end{tabular*}
+
+\horline
+\begin{center}
+    \textbf{\documenttitle}
+\end{center}
+\horline

@@ -1,0 +1,7 @@
+Dummy Attorney
+Attorney for Respondents
+123 Sausage Street,\\ Pretoria East,\\ 0044
+E-mail: sausage@sausagesmith.co.za
+Cell: 012 345 6789
+City: Pretoria
+

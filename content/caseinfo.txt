@@ -1,0 +1,14 @@
+Court Type = HIGH COURT
+Court Name = HIGH COURT OF SOUTH AFRICA
+Court Location = PRETORIA
+Court Division = GAUTENG DIVISION
+
+Case No = 2021/00/0001
+
+Reconvention = No
+
+[Applicants]
+Applicant 1 (ID 123456 7890 012)
+
+[Respondents]
+Respondent 1 (ID 123456 7890 012)

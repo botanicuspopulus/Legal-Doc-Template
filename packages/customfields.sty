@@ -1,0 +1,48 @@
+\ProvidesPackage{customfields}
+
+\RequirePackage{tikz}
+
+\newcommand{\drawFieldBase}[3]{
+    \begin{tikzpicture}[every node/.style={inner sep=0,outer sep=0}]
+        \node[anchor=west] (TextFieldNode) at (0cm, #1) {#2};
+        #3
+    \end{tikzpicture}
+}
+
+\newcommand{\drawTextField}[1]{%
+    \drawFieldBase{0cm}{#1}{
+        \draw[thick] (current bound box.sout west) rectangle (current bounding box.north east);
+    }
+}
+
+\newcommand{\drawUnderlinedTextField}[1]{%
+    \raisebox{-3.2pt}{%
+        \drawFieldBase{0cm}{#1}{
+            \draw[thick] ([yshift=-0.3ex]TextFieldNode.south west) -- ([yshift=-0.3ex]TextFieldNode.south east);
+        }
+    }
+}
+
+\newcommand{\drawLabeledTextField}[2]{%
+    \drawFieldBase{2ex}{#2}{
+        \draw[thick] ([yshift=-0.3ex]TextFieldNode.south west) -- ([yshift=-0.3ex]TextFieldNode.south east);
+        \node[anchor=west] at (0cm,-0.9ex) {#1};
+    }
+}
+
+\renewcommand{\LayoutTextField}[2]{
+    \setbox0=\hbox{#1\unskip}\ifdim\wd0=0pt
+        \setbox1=\hbox{#2\unskip}\ifdim\ht1>3ex
+            \drawTextField{#2} 
+        \else
+            \drawUnderlinedTextField{#2}
+        \fi
+    \else
+        \drawLabeledTextField{#1}{#2}
+    \fi
+}
+
+\newcommand{\fieldinline}[2]{\TextField[width=#2,name=#1]{}}
+\newcommand{\field}[2]{\TextField[width=#2]{#1}}
+
+\endinput
