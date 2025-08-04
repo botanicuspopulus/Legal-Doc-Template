@@ -1,4 +1,4 @@
-function process_recipients(filepath)
+local function process_recipients(filepath)
 	local file = io.open(filepath, "r")
 	if not file then
 		tex.error("Unable to open " .. filepath)
@@ -31,3 +31,5 @@ function process_recipients(filepath)
 
 	tex.print(table.concat(output, "\n"))
 end
+
+return process_recipients

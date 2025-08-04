@@ -1,7 +1,17 @@
-function process_content(filepath)
+local function process_content(filepath)
 	local file = io.open(filepath, "r")
 	if not file then
 		tex.error("Unable to open " .. filepath)
+		return
+	end
+	local jsonstr = file:read("*all")
+	file:close()
+
+	local json = require("external/dkjson")
+
+	local json_content, pos, err = json.decode(jsonstr, 1, nil)
+	if err then
+		tex.error("Error decoding JSON: " .. err)
 		return
 	end
 
@@ -70,11 +80,11 @@ function process_content(filepath)
 		return "paragraph", 0, line
 	end
 
-	for line in file:lines() do
+	for _, line in ipairs(json_content.content) do
 		line = line:match("^%s*(.-)%s*$")
 
 		if line ~= "" then
-			local line_type, level, content = parse_line(line)
+			local line_type, level, line_content = parse_line(line)
 
 			if line_type == "heading" then
 				for _ = current_level, 1, -1 do
@@ -82,14 +92,14 @@ function process_content(filepath)
 				end
 				current_level = 0
 
-				section(level, content)
+				section(level, line_content)
 			elseif line_type == "paragraph" then
 				for _ = current_level, 1, -1 do
 					end_enum()
 				end
 				current_level = 0
 
-				par(content)
+				par(line_content)
 			elseif line_type == "enumerate" then
 				if level > current_level then
 					for _ = current_level + 1, level do
@@ -102,14 +112,14 @@ function process_content(filepath)
 				end
 
 				current_level = level
-				item(content)
+				item(line_content)
 			else
 				for _ = current_level, 1, -1 do
 					end_enum()
 				end
 				current_level = 0
 
-				par(content)
+				par(line_content)
 			end
 		end
 	end
@@ -118,9 +128,9 @@ function process_content(filepath)
 		end_enum()
 	end
 
-	file:close()
-
 	for _, line in ipairs(output) do
 		tex.print(line)
 	end
 end
+
+return process_content

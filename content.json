@@ -1,0 +1,62 @@
+{
+	"court": {
+		"heading": "IN THE HIGH COURT OF SOUTH AFRICA \\\\ (GAUTENG DIVISION, PRETORIA)"
+	},
+	"case": {
+		"number": "2021/00/0001",
+		"reconvention": "No"
+	},
+	"parties": [
+		{
+			"name": "Applicant 1",
+			"id": "1234567890",
+			"address": "123 Sausage Street, Pretoria East, 0044",
+			"role": "Applicant"
+		},
+		{
+			"name": "Respondent 1",
+			"id": "1234567890",
+			"address": "123 Sausage Street, Pretoria East, 0044",
+			"role": "Respondent"
+		}
+	],
+	"recipients": [
+		{
+			"name": "Recipient 1",
+			"role": "Attorney for Respondents",
+			"address": "123 Sausage Street, Pretoria East, 0044",
+			"email": "sausage@sausagesmith.co.za",
+			"cell": "012 345 6789",
+			"city": "Pretoria",
+			"phone": "012 345 6789",
+			"fax": "012 345 6789"
+		},
+		{
+			"name": "Registrar of the High Court",
+			"role": "High Court of South Africa",
+			"address": "(Gauteng Division, Pretoria)",
+			"city": "Pretoria"
+		}
+	],
+	"signatories": [
+		{
+			"name": "Dummy Attorney",
+			"role": "Attorney for Respondents",
+			"address": "123 Sausage Street, Pretoria East, 0044",
+			"email": "sausage@sausagesmith.co.za",
+			"cell": "012 345 6789",
+			"city": "Pretoria",
+			"phone": "012 345 6789",
+			"fax": "012 345 6789"
+		}
+	],
+	"content": [
+		"# PARTIES AND CAPACITY",
+		"1. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+		"(a) Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+		"(b) Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+		"(i) Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+		"# JURISDICTION AND CAUSE OF ACTION",
+		"2. Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+	]
+}

@@ -4,15 +4,46 @@
 
 \begin{document}
 
-\input{layout/header}
-\input{layout/content}
-\input{layout/signatory}
+\begin{luacode}
+package.path = package.path .. ";./external/?.lua;./scripts/?.lua"
+\end{luacode}
+
+
+\begin{luacode*}
+  local header = require("./scripts/header")
+  header.process_case_info("content.json")
+  header.print_court_heading()
+\end{luacode*}
+
+\begin{tabular*}{\textwidth}{@{}l@{\extracolsep{\fill}}r@{}}
+  & \directlua{require("./scripts/header").print_case_no()} \\
+    In the matter between: & \\
+    \directlua{require("./scripts/header").print_parties()}
+\end{tabular*}
+
+\vspace{0.25cm}\hrule\vspace{0.25cm}
+\begin{center}
+    \textbf{\documenttitle}
+\end{center}
+\vspace{0.25cm}\hrule\vspace{0.25cm}
+\begin{luacode*}
+local process_content = require("scripts/content")
+process_content("content.json")
+\end{luacode*}
+
+\parbox{\textwidth}{
+  \vspace{0.5cm}
+  \directlua{require("./scripts/signatory")()}
+}
 
 \ifbool{insertOath}{
   \input{layout/oath}
 }{}
 
-\input{layout/recipients}
+\newpage
+\begin{spacing}{1}
+\directlua{require("./scripts/recipients")("content/recipients.txt")}
+\end{spacing}
 
 \newpage
 \begin{luacode}

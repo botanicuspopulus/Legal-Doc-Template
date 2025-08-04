@@ -61,7 +61,7 @@ local function format_signatory(s)
 	)
 end
 
-function print_signatories()
+local function print_signatories()
 	local all_signatories = process_signatories("content/signatory.txt")
 
 	if all_signatories == nil then
@@ -86,7 +86,8 @@ function print_signatories()
 	tex.print(string.format([[Signed at %s on this day, \today.\\]], signed_at))
 
 	for i = 1, #all_signatories do
-		local formatted_signatory = format_signatory(all_signatories[i])
-		tex.print(formatted_signatory)
+		tex.print(format_signatory(all_signatories[i]))
 	end
 end
+
+return print_signatories
