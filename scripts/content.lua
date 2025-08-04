@@ -4,12 +4,10 @@ local function process_content(filepath)
 		tex.error("Unable to open " .. filepath)
 		return
 	end
-	local jsonstr = file:read("*all")
-	file:close()
 
 	local json = require("external/dkjson")
-
-	local json_content, pos, err = json.decode(jsonstr, 1, nil)
+	local json_content, pos, err = json.decode(file:read("*all"))
+	file:close()
 	if err then
 		tex.error("Error decoding JSON: " .. err)
 		return

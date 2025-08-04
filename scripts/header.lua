@@ -14,10 +14,6 @@ local case_info = {
 	respondents = {},
 }
 
-local function trim(s)
-	return s and s:match("^%s*(.-)%s*$") or ""
-end
-
 function M.process_case_info(filepath)
 	local file = io.open(filepath, "r")
 	if not file then
