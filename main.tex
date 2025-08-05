@@ -34,7 +34,7 @@ package.path = package.path .. ";./external/?.lua;./scripts/?.lua"
 
 \parbox{\textwidth}{
   \vspace{0.5cm}
-  \directlua{require("./scripts/signatory")()}
+  \directlua{require("./scripts/signatory")("content.json")}
 }
 
 \ifbool{insertOath}{

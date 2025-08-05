@@ -16,53 +16,51 @@ local function process_signatories(fp)
 		return
 	end
 
+	local json = require("external/dkjson")
 	local file_content = f:read("*all")
 	f:close()
-
-	local blocks = {}
-	for segment in (file_content .. "\n\n"):gmatch("(.-)\n%s*\n") do
-		table.insert(blocks, segment)
+	local json_content, pos, err = json.decode(file_content)
+	if err then
+		tex.error("Error decoding JSON: " .. err)
+		return
 	end
 
-	local all = {}
-	for _, block in ipairs(blocks) do
-		local lines, index, city = {}, 1, nil
-		for line in block:gmatch("[^\n]+") do
-			line = line:match("^%s*(.-)%s*$") -- trim
-
-			if index == 1 then
-				table.insert(lines, "\\textbf{" .. line .. "}")
-			elseif index == 2 then
-				table.insert(lines, "\\textit{" .. line .. "}")
-			elseif line:match("^City:") then
-				city = line:match("^City:%s*(.+)$")
-			else
-				table.insert(lines, line)
-			end
-
-			index = index + 1
-		end
-
-		table.insert(all, { content = table.concat(non_blank_lines(lines), " \\\\"), city = city or "" })
-	end
-
-	return all
+	return json_content.signatories
 end
 
 local function format_signatory(s)
-	return string.format(
-		[[\begin{flushright}
-		    \begin{spacing}{1}
-		      \rule{0.4\textwidth}{0.5pt}\\[0.5em]
-		        %s
-		    \end{spacing}
-		  \end{flushright}]],
-		s.content
-	)
+	local output = {}
+
+	table.insert(output, [[\begin{flushright}\begin{spacing}{1}]])
+	table.insert(output, [[\rule{0.4\textwidth}{0.5pt}\\[0.5em]\\]])
+	table.insert(output, string.format([[\textbf{%s}\\\textbf{%s}\\]], s.name, s.role))
+
+	if s.address ~= nil then
+		table.insert(output, string.format([[%s\\]], s.address))
+	end
+
+	if s.email ~= nil then
+		table.insert(output, string.format([[E-mail: %s\\]], s.email))
+	end
+
+	if s.cell ~= nil then
+		table.insert(output, string.format([[Cell: %s\\]], s.cell))
+	end
+
+	if s.phone ~= nil then
+		table.insert(output, string.format([[Tel: %s\\]], s.phone))
+	end
+
+	if s.fax ~= nil then
+		table.insert(output, string.format([[Fax: %s\\]], s.fax))
+	end
+	table.insert(output, [[\end{spacing}\end{flushright}]])
+
+	return table.concat(output)
 end
 
-local function print_signatories()
-	local all_signatories = process_signatories("content/signatory.txt")
+local function print_signatories(fp)
+	local all_signatories = process_signatories(fp)
 
 	if all_signatories == nil then
 		return
@@ -85,8 +83,8 @@ local function print_signatories()
 
 	tex.print(string.format([[Signed at %s on this day, \today.\\]], signed_at))
 
-	for i = 1, #all_signatories do
-		tex.print(format_signatory(all_signatories[i]))
+	for _, signatory in ipairs(all_signatories) do
+		tex.print(format_signatory(signatory))
 	end
 end
 
